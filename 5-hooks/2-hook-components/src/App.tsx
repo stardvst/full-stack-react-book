@@ -29,17 +29,11 @@ const initialState = {
 function App() {
   const [{ enteredName, message }, dispatch] = useReducer(reducer, initialState);
 
-  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({ type: 'enteredName', payload: e.target.value });
-    dispatch({ type: 'message', payload: e.target.value });
-  };
-
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <input type="text" value={enteredName} onChange={onChangeName} />
-        <Greeting message={message} />
+        <Greeting enteredName={enteredName} message={message} greetingDispatcher={dispatch} />
       </header>
     </div>
   );
