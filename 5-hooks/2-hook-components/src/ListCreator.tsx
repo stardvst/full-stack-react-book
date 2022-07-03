@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 
 export interface ListItem {
   id: number;
@@ -8,7 +8,7 @@ export interface ListItems {
   listItems?: Array<ListItem>;
 }
 
-const ListCreator: FC<ListItems> = ({ listItems }) => {
+const ListCreator: FC<ListItems> = React.memo(({ listItems }) => {
   let renderItems = useRef<Array<JSX.Element> | undefined>();
 
   useEffect(() => {
@@ -18,6 +18,6 @@ const ListCreator: FC<ListItems> = ({ listItems }) => {
 
   console.log('rendering list creator');
   return <>{renderItems.current}</>;
-};
+});
 
 export default ListCreator;
