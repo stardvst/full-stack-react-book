@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test displaytext matches snapshot 1`] = `
+<body>
+  <div>
+    <form>
+      <div>
+        <label
+          for="name"
+        >
+          enter your name:
+        </label>
+        <input
+          data-testid="name-input"
+          type="text"
+          value=""
+        />
+        <button
+          data-testid="name-submit"
+        >
+          show message
+        </button>
+      </div>
+      <div>
+        <p
+          data-testid="final-msg"
+        />
+      </div>
+      <div>
+        this is just a test entry
+      </div>
+    </form>
+  </div>
+</body>
+`;
