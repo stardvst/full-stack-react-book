@@ -50,7 +50,7 @@ describe('test displaytext', () => {
     fireEvent.click(btn);
 
     expect(label).toBeInTheDocument();
-    await waitFor(() => promise)
+    await waitFor(() => promise);
     await waitFor(() => expect(label.innerHTML).toBe(message));
   });
 
