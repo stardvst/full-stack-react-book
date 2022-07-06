@@ -1,7 +1,9 @@
 import '@testing-library/jest-dom/extend-expect';
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import DisplayText from './DisplayText';
 
+jest.mock('./UserTodos');
 afterEach(cleanup);
 
 describe('test displaytext', () => {
@@ -20,7 +22,7 @@ describe('test displaytext', () => {
     const text = 'testuser';
     const [promise, getUserFullName] = getUserFullNameMock(text);
     const { baseElement } = render(<DisplayText getUserFullName={getUserFullName} />);
-    console.log(baseElement.innerHTML);
+    //console.log(baseElement.innerHTML);
     expect(baseElement).toBeInTheDocument();
   });
 
@@ -47,7 +49,9 @@ describe('test displaytext', () => {
 
     fireEvent.change(input, { target: { value: text } });
     const btn = getByTestId('name-submit');
-    fireEvent.click(btn);
+    act(() => {
+      fireEvent.click(btn);
+    });
 
     expect(label).toBeInTheDocument();
     await waitFor(() => promise);
