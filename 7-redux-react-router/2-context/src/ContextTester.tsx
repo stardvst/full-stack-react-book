@@ -9,7 +9,7 @@ interface UserData {
 
 export const TestContext = createContext<UserData>({ userName: '', userAge: 0 });
 
-const ContextTester = () => {
+const ContextTester = React.memo(() => {
   const [userAge, setUserAge] = useState(20);
   const [localState, setLocalState] = useState(0);
 
@@ -26,15 +26,14 @@ const ContextTester = () => {
       <button onClick={onClickAge}>Update age</button>
       <TestContext.Provider value={{ userName: 'abcdef', userAge }}>
         <UserAgeComp />
+        <br />
+        <UserNameComp />
       </TestContext.Provider>
-
-      <UserNameComp />
-      <br />
 
       <button onClick={onClickLocalState}>Update local state</button>
       <div>{localState}</div>
     </div>
   );
-};
+});
 
 export default ContextTester;
