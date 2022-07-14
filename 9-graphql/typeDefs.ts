@@ -17,6 +17,10 @@ const typeDefs = gql`
     getUser(id: ID!): User
     getTodos: [Todo!]
   }
+
+  type Mutation {
+    addTodo(title: String!, description: String): Todo
+  }
 `;
 
 export default typeDefs;

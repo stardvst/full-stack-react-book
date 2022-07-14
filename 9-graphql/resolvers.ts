@@ -42,6 +42,21 @@ const resolvers: IResolvers = {
       ];
     },
   },
+  Mutation: {
+    addTodo: async (
+      obj: any,
+      args: { title: string; description?: string },
+      ctx: GqlContext,
+      info: any
+    ): Promise<Todo> => {
+      todos.push({
+        id: v4(),
+        title: args.title,
+        description: args.description,
+      });
+      return todos[todos.length - 1];
+    },
+  },
 };
 
 export default resolvers;
