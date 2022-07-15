@@ -1,9 +1,12 @@
 import express from 'express';
-import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
+import { ApolloServer, makeExecutableSchema, PubSub } from 'apollo-server-express';
 import typeDefs from './typeDefs';
 import resolvers from './resolvers';
+import { createServer } from 'http';
 
 const app = express();
+const pubsub = new PubSub();
+
 const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
@@ -11,11 +14,14 @@ const schema = makeExecutableSchema({
 
 const apolloServer = new ApolloServer({
   schema,
-  context: ({ req, res }: any) => ({ req, res }),
+  context: ({ req, res }: any) => ({ req, res, pubsub }),
 });
 
 apolloServer.applyMiddleware({ app, cors: false });
+const httpServer = createServer(app);
+apolloServer.installSubscriptionHandlers(httpServer);
 
-app.listen({ port: 8000 }, () => {
-  console.log('GraphQL Server is ready at http://localhost:8000/graphql');
+httpServer.listen({ port: 8000 }, () => {
+  console.log('GraphQL server ready.' + apolloServer.graphqlPath);
+  console.log('GraphQL subs server ready.' + apolloServer.subscriptionsPath);
 });

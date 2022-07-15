@@ -22,5 +22,9 @@ const typeDefs = (0, apollo_server_express_1.gql) `
   type Mutation {
     addTodo(title: String!, description: String): Todo
   }
+
+  type Subscription {
+    newTodo: Todo!
+  }
 `;
 exports.default = typeDefs;

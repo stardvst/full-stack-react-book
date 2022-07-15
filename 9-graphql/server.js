@@ -7,16 +7,21 @@ const express_1 = __importDefault(require("express"));
 const apollo_server_express_1 = require("apollo-server-express");
 const typeDefs_1 = __importDefault(require("./typeDefs"));
 const resolvers_1 = __importDefault(require("./resolvers"));
+const http_1 = require("http");
 const app = (0, express_1.default)();
+const pubsub = new apollo_server_express_1.PubSub();
 const schema = (0, apollo_server_express_1.makeExecutableSchema)({
     typeDefs: typeDefs_1.default,
     resolvers: resolvers_1.default,
 });
 const apolloServer = new apollo_server_express_1.ApolloServer({
     schema,
-    context: ({ req, res }) => ({ req, res }),
+    context: ({ req, res }) => ({ req, res, pubsub }),
 });
 apolloServer.applyMiddleware({ app, cors: false });
-app.listen({ port: 8000 }, () => {
-    console.log('GraphQL Server is ready at http://localhost:8000/graphql');
+const httpServer = (0, http_1.createServer)(app);
+apolloServer.installSubscriptionHandlers(httpServer);
+httpServer.listen({ port: 8000 }, () => {
+    console.log('GraphQL server ready.' + apolloServer.graphqlPath);
+    console.log('GraphQL subs server ready.' + apolloServer.subscriptionsPath);
 });
